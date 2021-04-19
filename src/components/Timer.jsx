@@ -9,8 +9,19 @@ export const Timer = (props) => {
         let interval = null;
 
         if (timerOn) {
+
             interval = setInterval(() => {
-                setTime((prevTime) => prevTime>0?prevTime - 10:0);
+                setTime((prevTime) => {
+                        let tick = prevTime - 10;
+                        if (prevTime > 0) {
+                            return (tick);
+                        } else {
+                            tick = 0;
+                            clearInterval(interval);
+                            return tick;
+                        }
+                    }
+                );
             }, 10);
         } else if (!timerOn || time <= 0) {
             clearInterval(interval);
@@ -27,7 +38,7 @@ export const Timer = (props) => {
                     <h2>Countdown timer</h2>
                 </div>
 
-                <Display time = {time}/>
+                <Display time={time}/>
 
                 <div className="buttons">
                     {!timerOn && time === props.timeStart && (
